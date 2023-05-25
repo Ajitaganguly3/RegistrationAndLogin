@@ -1,39 +1,41 @@
 package com.moviebookingapp.registrationAndLogin.service;
 
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.moviebookingapp.registrationAndLogin.model.User;
 import com.moviebookingapp.registrationAndLogin.repository.LoginRepository;
 
 @Service
 public class UserProfileServiceImpl implements UserDetailsService {
 
-	@Autowired
+	
 	private LoginRepository loginRepository;
+	
+	public UserProfileServiceImpl(LoginRepository loginRepository) {
+		this.loginRepository = loginRepository;
+	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		
-		System.out.println("Start loadUserByUsername");
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+          User user = loginRepository.findByUsername(username)
+                 .orElseThrow(() ->
+                         new UsernameNotFoundException("User not found with username or email: "+ username));
 
-		com.moviebookingapp.registrationAndLogin.model.User user = loginRepository.findByUsername(userName);
+        Set<GrantedAuthority> authorities = user
+                .getRoles()
+                .stream()
+                .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
 
-		if (user == null) {
-
-			System.out.println("User not found:" + userName);
-			throw new UsernameNotFoundException("User not found !!");
-		}
-		System.out.println("User found: " + user.getUserName());
-		
-		System.out.println("end loadUserByUsername");
-
-		return new User(user.getUserName(), user.getPassword(), new ArrayList<>());
-	}
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(),
+                authorities);
+    }
 }

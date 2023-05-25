@@ -62,7 +62,7 @@ public class UserProfileService {
 		userProfile.setLoginId(userProfileDTO.getLoginId());
 		userProfile.setFirstName(userProfileDTO.getFirstName());
 		userProfile.setLastName(userProfileDTO.getLastName());
-		userProfile.setUserName(userProfile.getUserName());
+		userProfile.setUsername(userProfile.getUsername());
 		userProfile.setEmail(userProfileDTO.getEmail());
 		userProfile.setPassword(userProfileDTO.getPassword());
 		userProfile.setConfirmPassword(userProfileDTO.getConfirmPassword());
@@ -94,6 +94,12 @@ public class UserProfileService {
 			ErrorResponse errorResponse = new ErrorResponse();
 			errorResponse.setName("LoginId");
 			errorResponse.setDetail("Login Id is mandatory or missing");
+			listErrorResponse.add(errorResponse);
+		}
+		if (StringUtils.hasText(userProfileDTO.getUsername())) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setName("Username");
+			errorResponse.setDetail("Username is mandatory or missing");
 			listErrorResponse.add(errorResponse);
 		}
 		if (StringUtils.hasText(userProfileDTO.getFirstName())) {

@@ -49,13 +49,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/login")
-	public ResponseEntity<?> generateToken(@RequestBody User authenticationRequest) throws Exception {
+	public ResponseEntity<?> generateToken(@RequestParam User authenticationRequest) throws Exception {
 
 		System.out.println("Start generateToken");
-		System.out.println(authenticationRequest.getUserName() + " " + authenticationRequest.getPassword());
+		System.out.println(authenticationRequest.getUsername() + " " + authenticationRequest.getPassword());
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					authenticationRequest.getUserName(), authenticationRequest.getPassword()));
+					authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
 		} catch (UsernameNotFoundException e) {
 			throw new Exception("Incorrect username or password", e);
@@ -63,7 +63,7 @@ public class UserController {
 			throw new Exception("Incorrect username or password", e);
 		}
 
-		userDetails = userProfileServiceImpl.loadUserByUsername(authenticationRequest.getUserName());
+		userDetails = userProfileServiceImpl.loadUserByUsername(authenticationRequest.getUsername());
 
 		String token = jwtUtil.generateToken(userDetails);
 

@@ -14,7 +14,7 @@ public class UserProfileDTO {
 	public String loginId;
 	public String firstName;
 	public String lastName;
-	public String userName;
+	public String username;
 	public String email;
 	public String password;
 	public String confirmPassword;
@@ -28,11 +28,12 @@ public class UserProfileDTO {
 	public String getFirstName() {
 		return firstName;
 	}
-	public String getUserName() {
-		return userName;
+	
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;

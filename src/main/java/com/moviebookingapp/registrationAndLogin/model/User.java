@@ -1,32 +1,28 @@
 package com.moviebookingapp.registrationAndLogin.model;
 
-import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+import lombok.Data;
+
+@Data
+@Document(collection = "User_Profile")
 public class User {
 	
 	@Id
-	public String loginId;
-	@NotNull
-	public String firstName;
-	@NotNull
-	public String lastName;
-	@NotNull
-	public String userName;
-	@NotNull
-	public String email;
-	@NotNull
-	public String password;
-	@NotNull
-	public String confirmPassword;
-	@NotNull
-	public String contactNo;
+	private String loginId;
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String email;
+	private String password;
+	private String confirmPassword;
+	private String contactNo;
 	
-	public boolean isLocked;
-	public boolean isAdmin;
+	private Set<Role> roles;
+	
 	public String getLoginId() {
 		return loginId;
 	}
@@ -45,6 +41,12 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -53,12 +55,6 @@ public class User {
 	}
 	public String getPassword() {
 		return password;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 	public void setPassword(String password) {
 		this.password = password;
@@ -75,18 +71,15 @@ public class User {
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
-	public boolean isLocked() {
-		return isLocked;
+	public Set<Role> getRoles() {
+		return roles;
 	}
-	public void setLocked(boolean isLocked) {
-		this.isLocked = isLocked;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+	
+	
+	
 	
 	
 
